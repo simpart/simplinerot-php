@@ -31,7 +31,7 @@ namespace route;
 
 require_once( __DIR__ . DIRECTORY_SEPARATOR . 'rotFunc.php' );
 
-$rotTbl = @gen1;
+$rotTbl = @gen1
 
 try {
     $uri = getPureUri( $_SERVER['REQUEST_URI'] );
@@ -41,7 +41,7 @@ try {
             return;
         }
     }
-    execRoute(@gen2);
+    execRoute('@gen2');
 } catch (\Exception $e) {
     echo $e->getMessage();
 }

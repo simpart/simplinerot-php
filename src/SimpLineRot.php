@@ -7,6 +7,7 @@
 namespace mod\SimpLineRot\src;
 
 require_once(__DIR__ . '/synxCheck.php');
+require_once(__DIR__ . '/genSource.php');
 
 class SimpLineRot implements \fnc\gen\InfGen
 {
@@ -33,12 +34,15 @@ class SimpLineRot implements \fnc\gen\InfGen
     public function generate() {
         try {
             /* syntax check */
-            chkRequredKey($this->cnf);
-            chkRotDest($this->cnf);
+            chkRequredKey($this->prm->getConf());
+            chkRotDest($this->prm->getConf());
             
             /* generate routing file */
-            
-            
+            genFunc($this->prm->getOutput());
+            genRoute(
+                $this->prm->getOutput(),
+                $this->prm->getConf()
+            );
             
         } catch (\Exception $e) {
             throw $e;

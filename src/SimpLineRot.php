@@ -33,6 +33,8 @@ class SimpLineRot implements \fnc\gen\InfGen
     public function generate() {
         try {
             /* syntax check */
+            chkRequredKey($this->cnf);
+            chkRotDest($this->cnf);
             
             /* generate routing file */
             

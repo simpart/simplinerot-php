@@ -1,5 +1,5 @@
 name    : SimpLineRot
-version : 0.5
+version : 0.6
 author  : simpart
 url     : https://github.com/simpart/simplinerot-php
 desc    : routing destination be decided by linear search

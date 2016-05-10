@@ -41,10 +41,11 @@ function genRoute($out,$cnf) {
         
         $rot_tbl = array();
         foreach ($cnf as $key => $val) {
-            if (0 === strcmp($key, '__NMATCHED__')) {
+            if ( (0 === strcmp($key, '__NMATCHED__')) ||
+                 (0 === strcmp($key, '__BASEDIR__'))) {
                 continue;
             }
-            $rot_tbl[$key] = $val;
+            $rot_tbl[$key] = 'DROT_BASEDIR . ' . '\'' . $val . '\'';
         }
         if (0 === count($rot_tbl)) {
             throw new \err\gen\GenErr(
@@ -61,6 +62,13 @@ function genRoute($out,$cnf) {
                        $cnf['__NMATCHED__'],
                        $rot_rep
                    );
+        
+        if (true === array_key_exists('__BASEDIR__', $cnf)) {
+            $gen3_rep = 'define(\'DROT_BASEDIR\', \'' . $cnf['__BASEDIR__'] . '\');';
+        } else {
+            $gen3_rep = 'define(\'DROT_BASEDIR\', \'\');';
+        }
+        $rot_rep = str_replace( '@gen3', $gen3_rep, $rot_rep );
         $ret = file_put_contents( $out . 'route.php', $rot_rep );
         if ( false === $ret ) {
             throw new \err\gen\GenErr(
@@ -92,11 +100,11 @@ function getArrayCode( $ary, $cnt=0 ) {
                     $isarr    = true; 
                     $ret_str .= ' '.getArrayCode( $val, $cnt+1 );
                 } else { 
-                    if ( true === is_string( $val ) ) {
-                        $ret_str .= '\''. $val .'\'';
-                    } else {
+                    #if ( true === is_string( $val ) ) {
+                    #    $ret_str .= '\''. $val .'\'';
+                    #} else {
                         $ret_str .= $val;
-                    }
+                    #}
                 }
                 $ret_str .= ',';
                 if ( (0 === $cnt) && (true === $isarr) ) {
@@ -109,18 +117,18 @@ function getArrayCode( $ary, $cnt=0 ) {
                 if ( 0 === $cnt ) {
                     $ret_str .= '    ';
                 }
-                $ret_str .= '\''. $key .'\' =>';
+                $ret_str .= '\''. $key .'\' => ';
                 if ( null === $val ) {
                     $ret_str .= ' null';
                 } else if ( true === is_array( $val ) ) {
                     $isarr    = true;
                     $ret_str .= ' '.getArrayCode( $val, $cnt+1 );
                 } else { 
-                    if ( true === is_string( $val ) ) {
-                        $ret_str .= '\''. $val .'\'';
-                    } else {
+                    #if ( true === is_string( $val ) ) {
+                    #    $ret_str .= '\''. $val .'\'';
+                    #} else {
                         $ret_str .= $val;
-                    }
+                    #}
                 }
                 $ret_str .= ',';
                 if ( (0 === $cnt) && (true === $isarr) ) {

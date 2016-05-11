@@ -31,6 +31,8 @@ namespace route;
 
 require_once( __DIR__ . DIRECTORY_SEPARATOR . 'rotFunc.php' );
 
+@gen3
+
 $rotTbl = @gen1
 
 try {
@@ -41,7 +43,7 @@ try {
             return;
         }
     }
-    execRoute('@gen2');
+    execRoute( DROT_BASEDIR . '@gen2');
 } catch (\Exception $e) {
     echo $e->getMessage();
 }

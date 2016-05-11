@@ -30,13 +30,20 @@ function chkRequredKey($cnf) {
 
 function chkRotDest($cnf) {
     try {
-        $chk = true;
+        $chk  = true;
+        $base = '';
+        if (true === array_key_exists('__BASEDIR__', $cnf)) {
+            $base = $cnf['__BASEDIR__']; 
+        }
         foreach ($cnf as $key => $val) {
-            if (true !== file_exists($val)) {
+            if (0 === strcmp($key, '__BASEDIR__')) {
+                continue;
+            }
+            if (true !== file_exists($base . $val)) {
                 $chk = false;
                 break;
             }
-            $ftype = filetype($val);
+            $ftype = filetype($base . $val);
             if (0 !== strcmp($ftype, 'file')) {
                 $chk = false;
                 break;

@@ -95,7 +95,6 @@ function execRoute($cpath) {
             echo $ret;
         } else {
             if (0 === strcmp($type[ count($type)-1 ], 'php') ) {
-                header("Content-Type: application/json; charset=utf-8");
                 require_once( $cpath );
                 return;
             }
